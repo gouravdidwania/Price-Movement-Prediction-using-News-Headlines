@@ -1,12 +1,12 @@
 <!-- PROJECT LOGO -->
-![download](https://user-images.githubusercontent.com/86877457/132739007-27d38222-4d38-4e74-a850-510cb8ed5818.gif)
+![maxresdefault](https://user-images.githubusercontent.com/86877457/132740281-f1784d38-cd9a-4a9b-8fbe-e3b3099b4008.jpg)
 <br />
 <p align="center">
 
-  <h3 align="center">Customer Segmentation in Online Retail</h3>
+  <h3 align="center">Price Movement Prediction using News Headlines</h3>
 
   <p align="center">
-    In this project, I'll try performing Customer Segmentation in Online Retail dataset using python, focussing on cohort analysis, understanding market base, sales and customer purchase patterns using RFM analysis and clustering.
+    In this project, I'll try predicting price movement direction of Dow Jones Industrial Average (DJIA) using python, which can be applied on various other stocks and financial instruments like Futures, Options and Bonds .
     <br />
   </p>
 </p>
@@ -23,10 +23,6 @@
     </li>
     <li>
       <a href="#problem-statement">Problem Statement</a>
-      <ul>
-        <li><a href="#understanding-customer-segmentation">Understanding Customer Segmentation</a></li>
-        <li><a href="#ways-to-segment-your-customers">Ways to Segment your Customers</a></li>
-      </ul>
     </li>
     <li>
 	<a href="#data-overview">Data Overview</a>
@@ -37,10 +33,11 @@
     </li>
     <li><a href="#implementaion">Implementaion</a>
 	<ul>
-          <li><a href="#exploring-the-data">Exploring the Data</a></li>
-          <li><a href="#cohort-analysis">Cohort Analysis</a></li>
-	  <li><a href="#rfm-segmentation">RFM Segmentation</a></li>
-	  <li><a href="#clustering">Clustering</a></li>
+          <li><a href="#data-preparation">Data Preparation</a></li>
+          <li><a href="#classification-modelling">Classification Modelling</a></li>
+	  <li><a href="#best-baseline-models">Best Baseline Models</a></li>
+	  <li><a href="#performance-on-test-data">Performance on Test Data</a></li>
+	  <li><a href="#auc-roc-analysis">AUC ROC Analysis</a></li>
         </ul>
     </li>
     <li><a href="#final-thoughts">Final Thoughts</a></li>
@@ -52,278 +49,244 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-Customer segmentation has a lot of potential benefits. It helps a company to develop an effective strategy for targeting its customers. This has a direct impact on the entire product development cycle, the budget management practices, and the plan for delivering targeted promotional content to customers. Customer segmentation can also help a company to understand how its customers are alike, what is important to them, and what is not. Often such information can be used to develop personalized relevant content for different customer bases. 
+We are living in a constantly changing world. Every day the “breaking news” could impact our decision making on our lives. It is especially the case for stock market. I am curious if the news headlines of the day could affect the stock market close value of the same day.
 
-**As per the Pareto Principle, 80% of outcomes result from 20% of all the causes of any given event.**
+**Dow Jones Industrial Average** is a stock market index that collects the value of a list of 30 large and public companies based in the US. In this way it gives an idea of the trend that is going through the stock market.
 
-In business terms, we can say that 20% of customers contribute 80% share of the total revenue of a company. That’s why finding this set of people is important. I will explain the importance of customer segmentation in a detailed manner later in this article itself.
-
+News and global events, political or otherwise, play a major role in changing stock values. Every stock exchange is, after all, reflects how much trust investors are ready to put in other companies.
 
 <!-- PROBLEM STATEMENT -->
 ## Problem Statement
 
-The overall aim of this process is to identify high-value customer base i.e. customers that have the highest growth potential or are the most profitable.
+The overall aim of this process is to identify dependency of price of the stock on daily news headlines and whether the headlines could predict whether the stock closing price will increase or decrease.
 
-Insights from customer segmentation are used to develop tailor-made marketing campaigns and for designing overall marketing strategy and planning.
-
-### Understanding Customer Segmentation
-
-Customer segmentation is the process of separating customers into groups on the basis of their shared behavior or other attributes.
-
-The type of segmentation criterion followed would create a big difference in the way the business operates and formulates its strategy. This is elucidated below.
-
-  ```sh
-  1. Zero segments: This means that the company is treating all of its customers in a similar manner. In other words, there is no differentiated strategy and all of the customer base is being reached out by a single mass marketing campaign.
-  
-  2. One segment: This means that the company is targeting a particular group or niche of customers in a tightly defined target market.
-  
-  3. Two or more segments: This means that the company is targeting 2 or more groups within its customer base and is making specific marketing strategies for each segment.
-  
-  4. Thousands of segments: This means that the company is treating each customer as unique and is making a customized offer for each one of them.
-  ```
-**Factors for segmentation for a business to consumer marketing company:**
-
-1. **Demographic:** Age, Gender, Education, Ethnicity, Income, Employment, hobbies, etc.
-2. **Recency, Frequency, and Monetary:** Time period of the last transaction, the frequency with which the customer transacts, and the total monetary value of trade.
-3. **Behavioral:** Previous purchasing behavior, brand preferences, life events, etc.
-4. **Psychographic:** Beliefs, personality, lifestyle, personal interest, motivation, priorities, etc.
-5. **Geographical:** Country, zip code, climatic conditions, urban/rural areal differentiation, accessibility to markets, etc.
-
-### Ways to Segment your Customers?
-
-To start with customer segmentation, a company needs to have a clear vision and a goal in mind. 
-
-The following steps can be undertaken to find segments in the customer base:
-
-1. Analyze the existing customer pool
-2. Develop an understanding of each customer
-3. Define segment opportunities
-4. Research the segment
-5. Experiment with new strategies
+Insights from this can be used to develop systems for traders to decide whether one should hold positions in the market or not.
 
 
 <!-- DATA OVERVIEW -->
 ## Data Overview
 
-Source: [The UCI Machine Learning Repository](https://bit.ly/3BPWgr4)
+Source: [Kaggle](https://www.kaggle.com/aaron7sun/stocknews)
 
-Data: This is a transnational data set which contains all the transactions occurring between 01/12/2010 and 09/12/2011 for a UK-based and registered non-store online retail. The company mainly sells unique all-occasion gifts. Many customers of the company are wholesalers.
+Data: This data contains 8 years of daily news headlines from 2000 to 2016 from Yahoo Finance and Reddit WorldNews, as well as the Dow Jones Industrial Average(DJIA) close value of the same dates as the news. This will be a binary classification problem. When the target is “0”, the same day DJIA close value decreased compared with the previous day, when the target is “1”, the value rose or stayed the same.
 
-Downloaded the xlxs file from Kaggle.
+Downloaded the csv file from Kaggle.
 
 ### Data Attributes
 
-**1. InvoiceNo:** Invoice number. Nominal, a 6-digit integral number uniquely assigned to each transaction. If this code starts with letter ‘c’, it indicates a cancellation.
+**1. Date:** Date column contains the dates from 2000 to 2016 on which the news are released.
 
-**2. StockCode:** Product (item) code. Nominal, a 5-digit integral number uniquely assigned to each distinct product.
+**2. Label:** Binary Numeric, '0' represent that the price went down and '1' represent that the price went up.
 
-**3. Description:** Product (item) name. Nominal.
-
-**4. Quantity:** The quantities of each product (item) per transaction. Numeric.
-
-**5. InvoiceDate:** Invoice Date and time. Numeric, the day and time when each transaction was generated.
-
-**6. UnitPrice:** Unit price. Numeric, Product price per unit in sterling.
-
-**7. CustomerID:** Customer number. Nominal, a 5-digit integral number uniquely assigned to each customer.
-
-**8. Country:** Country name. Nominal, the name of the country where each customer resides.
+**3. Top#:** Strings that contains the top 25 news headlines for the day ranging from 'Top1' to 'Top25'
 
 ### Data Snapshot
 
-![image](https://miro.medium.com/max/2000/1*LiXE_SJlbXXTXoiLFasu7A.png)
+Let’s look at the data. We have a date column, a label column, and 25 top news columns. Each row represents a day.
+
+![image](https://user-images.githubusercontent.com/86877457/132743780-556bd0a8-2b50-477b-9129-306d66f1c5ae.png)
 
 <!-- IMPLEMANTATION -->
 ## Implementaion
 
 **Real-world/Business objectives and constraints**
 
-- Interpretability is important.
+- No low-latency requirement.
 - Errors can be costly.
-- Segmantation should suit the retail business
+- Should be robust in nature.
 
-### Exploring the Data
+### Data Preparation
 
-Data was processed and cleaned. Here the duplicates were removed and the missing values were handled.
+**Data Preparation Steps:**
+
+1. Remove date column
+2. Combine 25 top news headlines of each day into one document
+3. Clean the text data by converting abbreviations to full form, removing punctuations & stop words, lowering the letter, and performing lemmatizations.
+4. Tokenize each document into list of words
+5. Use 3 word embedding methods to convert the tokens into numeric values: Bag of words, word TF-IDF and GoogleNews word2vec then doc2vec.
+
+**Data Cleaning**
+
+We need to remove punctuations and stop words, also lower the letters. Before doing these, the abbreviations need to be converted to regular words because their meaning could be lost while cleaning. I made this function to filter out all the abbreviations from the entire dataset.
+
+  ```sh
+  def find_abbr(text):
+    abbr = []
+    for i in re.finditer(r"([A-Za-z]+| )([A-Za-z]\.){2,}", text):
+        abbr.append(i.group())
+    df_abbr = pd.Series(abbr)
+    return df_abbr.unique()	
+  ```
+Here is the result:
+
+![image](https://user-images.githubusercontent.com/86877457/132745464-238c5005-c2aa-4b81-8871-8ee3b76898b1.png)
+
+The abbreviations which were important were converted to their full forms other abbreviation like A.K.A were removed. Then a loumn was created 'headlines_str' which contained all the headlines merged into one string. 
+
+I created a loop that can convert raw text into a list of word tokens. This function tokenise the string into word tokens. Further clean is performed to lemmatise the words, remove stop words as well as lower the letters. Here is the loop.
+
+  ```sh
+  df['headlines_str']=np.nan
+  for i in range(len(df.Headlines)):
+    df.headlines_str[i]=df.Headlines[i].lower()
+    df.headlines_str[i]=re.sub("[^a-zA-z]"," ",df.headlines_str[i])
+    words=nltk.word_tokenize(df.headlines_str[i])
+    words=[wl.lemmatize(word) for word in words if word not in set(stopwords.words('english'))]
+    df.headlines_str[i]=' '.join(words)	
+  ```
+After this, the headlines were converted like this:
 
-**Country**
+![image](https://user-images.githubusercontent.com/86877457/132746901-78788bdb-aac1-480a-a276-c6a57f3d79f9.png)
 
-Since the data, taken from the UCI Machine Learning repository describes the data to based on transactions for a UK-based and registered non-store online retail, let us check the percentage of orders from each country in the data.
+The words were stored in the form of a lists in seperate column 'headlines_words'
 
-![image](https://user-images.githubusercontent.com/86877457/132364248-5074e4c0-b17d-4b0e-ad34-83de485f3e93.png)
+![image](https://user-images.githubusercontent.com/86877457/132746710-83dee565-0ed6-42b5-806e-27f377c63610.png)
 
-The above graph shows the percentage of orders from the top 10 countries, sorted by the number of orders. This shows that more than 90% of orders are coming from United Kingdom and no other country even makes up 3% of the orders in the data.
+**Data Preparation**
 
-**Customers and Products**
+Machine learning models don’t understand human words, but they know vectors!
 
-The total number of products, transactions, and customers in the data, which correspond to the total unique stock codes was found out
+I want to try several different word embedding methods, because they could affect the performance of the models. For bag of words, TF-IDF embedding, we need to have each document as a long string. For word2vec embedding, the vectors will be what we need.
 
-![image](https://user-images.githubusercontent.com/86877457/132364618-7b91ea6c-72d5-4b38-aaac-da5d8a87978e.png)
+- Doc2vec: The famous GoogleNews word2vec model was trained on 3 billion running words and contains 3 million 300-dimension English word vectors. I downloaded the model from [here](https://github.com/mmihaltz/word2vec-GoogleNews-vectors). Our prediction will be based on each document instead of words. So made a document vector by averaging the word vectors on each combined string in 'headlines_str'. I created a function to do this task. After running each document through this function, every document is now a 300 dimensional vector.
 
-It can be seen that the data concern 4372 users and that they bought 3958 different products. The total number of transactions carried out is of the order of ∼ 24000.
+  ```sh
+  def doc2vec(model, wordlist):
+    '''
+    Use a word2vec embedding model to get the vecter of each word of the wordlist.
+    Now we have a list of vecters, len(list)= number of words in the doc, len(vector)= the model type, e.g.300
+    Convert each doc into a vector by np.mean. len(doc vec) = 300
+    '''
+    # Filter the list of vectors to include only those that Word2Vec has a vector for
+    vector_list = [model[word] for word in wordlist if word in model.vocab]
+    doc_vector = np.mean(vector_list, axis=0)
+    return doc_vector
+  ```
+Now we need to create a new data frame that has all the relevant data format we need for modelling later which we can convert it into a pickle file. Here is the review.
 
-Many Order were cancelled and across the countries. As per the data, if the invoice number code starts with the letter ‘c’, it indicates a canceled order.
+![image](https://user-images.githubusercontent.com/86877457/132747924-e6fd6987-1c14-42c5-a1c1-b0467d8f24c8.png)
 
-![image](https://user-images.githubusercontent.com/86877457/132365236-c3734aba-7a6f-4f66-8e57-b404449fbfd5.png)
+After the above preprocessing, we have the data ready for modelling.
 
-We note that the number of cancellations is quite large ( ∼ 16% of the total number of transactions).
-As we can see from the above figure, these cases are the ones where CustomerID values are NaNs and the decription mentioned check, lost, missing, smashed got these itmems. These cases were also removed from the data.
+### Classification Modelling
 
-**Stock Code**
+Every dataset is different. We don’t know which model works best for our data until we try all of them. Here I selected 7 different classification models. These models are all classic that usually works well in filtering baseline models. I know from my previous projects that Naive Bayes and Random Forest works good in such situations. Let's find out which works best.
 
-several types of peculiar transactions, connected i.e., port charges, bank fee, discount, free gifts, Carry bags, Samples, Amazon Fee,transaction fees which needed to be analysed.
+Each embedding method will have 7 reports from the 7 models. After comparing the results, we have the best baseline model:
 
-![image](https://user-images.githubusercontent.com/86877457/132366457-8f51877b-885b-47c5-a684-de5e3fd30a3a.png)
+**Train - Validation - Test Split**
 
-**Net Amount/Invoice**
+This is a time series data where we have to predict future results with data of past so randomly dividing the data shouldn't be performed. So, I put away data since 2015 beginning as test data, and further split the rest of data from 2000 to 2014 as test data and 2014 to 2015 as validation data. In order to make the process concise and clean, I created a function to try all the models.
 
-![image](https://user-images.githubusercontent.com/86877457/132366788-11d3cdef-3a24-43ff-a031-ed2648e03867.png)
+  ```sh
+  from sklearn import  svm, naive_bayes, neighbors, ensemble
+  from sklearn.linear_model import LogisticRegression
+  
+  lr_model = LogisticRegression()
+  nb_model = naive_bayes.GaussianNB()
+  knn_model = neighbors.KNeighborsClassifier()
+  svc_model = svm.SVC(probability=True, gamma="scale")
+  rf_model = ensemble.RandomForestClassifier(n_estimators=100)
+  et_model = ensemble.ExtraTreesClassifier(n_estimators=100)
+  ada_model = ensemble.AdaBoostClassifier()
+  
+  models = ["lr_model", "nb_model", "knn_model", "svc_model", "rf_model", "et_model", "ada_model"]
+  ```
+  
+    ```sh
+  def baseline_model_filter(modellist, X, y):
+    ''' 1. split the train data further into train and validation (17%). 
+        2. fit the train data into each model of the model list
+        3. get the classification report based on the model performance on validation data
+    '''
+    X_train, X_valid, y_train, y_valid = X[:3471],X[3471:],y[:3471],y[3471:]
+    for model_name in modellist:
+        curr_model = eval(model_name)
+        curr_model.fit(X_train, y_train) 
+        print(f'{model_name} \n report:{classification_report(y_valid, curr_model.predict(X_valid))}')
 
-*Amount shown are in UK Dollars
+  ```
+  
+We are going to try the 7 models on data prepared in four different word embedding methods. Bag of words, word TF-IDF and word2vec. Each method will give me 7 reports, I selected the best performing model and listed them below
 
-It can be seen that the vast majority of orders concern purcheses of low value ∼ 78% of purchases give prices in excess of £200.
+### Best Baseline Models
 
-![image](https://user-images.githubusercontent.com/86877457/132367301-c110a9f9-9566-41eb-ac66-628f4221fd69.png)
+**For Bad of Words/Count Vectorizer:**
+---------------------------------------
 
-*UK not included. UK as expected topped the list int this category.
+```sh
+count_vect = CountVectorizer(analyzer='word')
+X = count_vect.fit_transform(df_train.news_str).toarray()
+y = df_train.Label
+baseline_model_filter(models, X, y)
+```
+Naive Bayes and Random Forest model gives the best result for bag of words embedding.
 
-### Cohort Analysis
-**What is Cohort Analysis**
+![image](https://user-images.githubusercontent.com/86877457/132750464-283b21df-1f9a-47f9-88c2-5168bdee840d.png)
 
-A cohort is a set of users who share similar characteristics over time. Cohort analysis groups the users into mutually exclusive groups and their behaviour is measured over time.
+![image](https://user-images.githubusercontent.com/86877457/132750553-ce22ceb2-32fe-4555-9372-4a6ec096f7da.png)
 
-There are three types of cohort analysis:
+**For Word TF-IDF:**
+----------------------
 
-- **Time cohorts:** It groups customers by their purchase behaviour over time.
-- **Behaviour cohorts:** It groups customers by the product or service they signed up for.
-- **Size cohorts:** Refers to various sizes of customers who purchase company's products or services. This categorization can be based on the amount of spending in some period of time.
+KNN model gives the best result for TF-IDF embedding. However, the bag of words result is slightly better than word level TF-IDF.
 
-In the following analysis, I created 'Time Cohorts'
+![image](https://user-images.githubusercontent.com/86877457/132750729-7a07b26d-4fe1-42fc-83fd-dd4c0ee34257.png)
 
-Checking the date range of our data, we find that it ranges from the start date: 2010–12–01 to the end date: 2011–12–09.
+This three models were selected considering the general model performance and f1 scores. Word2Vec were not that promising
 
-Next, a column called 'CohortMonth' was created to indicate the month of the transaction by taking the first date of the month of InvoiceDate for each transaction. Then, information about the first month of the transaction was extracted, grouped by the CustomerID.
+### Performance on Test Data
 
-![image](https://user-images.githubusercontent.com/86877457/132368576-33372fc3-6fc8-4e97-814f-f68394a06a2e.png)
+The model mentioned above were selected and **hyper-parameter tuning** was performed for each model.
 
-Then I found the difference between the InvoiceMonth and the CohortMonth column in terms of the number of months to get the CohartIndex. Choartindex will tell us about the month of repurchase after their initial purchase.
+**GridSearchCV** was used to find the best hyper paramters.
 
-![image](https://user-images.githubusercontent.com/86877457/132369142-a9ecc310-96aa-4347-b51e-8130e7103e3e.png)
+**Naive Bayes Model with Count Vectorizer**
+--------------------------------------------
+The Confusion Matrix and the Classification Report for the following is shown below:
 
-After obtaining the above information, I obtained the cohort analysis matrix by grouping the data by CohortMonth and CohortIndex and aggregating on the CustomerID column.
+![image](https://user-images.githubusercontent.com/86877457/132752524-556bdf65-1d73-4aba-ac2f-664950c70366.png)
 
-![image](https://user-images.githubusercontent.com/86877457/132369533-f2581a25-31c9-458b-bb22-3a8f51ab6b96.png)
+**Random Forest with Count Vectorizer**
+----------------------------------------
+The Confusion Matrix and the Classification Report for the following is shown below:
 
-**What does the above table tell us?**
+![image](https://user-images.githubusercontent.com/86877457/132752723-b9673415-9c02-47e2-b0c1-8a8d39bb01fb.png)
 
-Consider CohortMonth 2010–12–01: For CohortIndex 0, this tells us that 948 unique customers made transactions during CohortMonth 2010–12–01. For CohortIndex 1, this tells that there are 341 customers out of 948 who made their first transaction during CohortMonth 2010–12–01 and they also made transactions during the next month. That is, they remained active.
+**KNN Model with TFID Vectorizer**
+----------------------------------
+The Confusion Matrix and the Classification Report for the following is shown below:
 
-Now I calculated the Retention Rate. It is defined as the percentage of active customers out of total customers.
+![image](https://user-images.githubusercontent.com/86877457/132752813-eeb10dbf-8610-4b4c-94cf-1a944382a78e.png)
 
-![image](https://user-images.githubusercontent.com/86877457/132369804-450dd1c8-c907-45e4-b8c4-ef3646ca1efc.png)
+The Results were surprisingly different. Best Model obtained during the training process resulted the least perfromance. We'll be selecting **Naive Bayes Model** in comparision to 'Random Forest' as both accuracy and the F1 score for the classification are better.
 
-From the above retention rate heatmap, we can see that there is an average retention of ~35% for the CohortMonth 2010–12–01, with the highest retention rate occurring after 11 months (49.3%). For all the other CohortMonths, the average retention rates are around 18–25%
+### AUC ROC Analysis
 
-### RFM Segmentation
-RFM stands for **Recency, Frequency, and Monetary.**
+An Investor/Trader invest a lot of money in the market and saving money is more important than earning money for them. The purpose of this Analysis was to reduce the **False Positive Rate**, so that the Investor/Trader can save money by pulling out positions in the model's false claims.
 
-RFM analysis is a commonly used technique to generate and assign a score to each customer based on how recent their last transaction was (Recency), how many transactions they have made in the last year (Frequency), and what the monetary value of their transaction was (Monetary).
+1. At first, the probabilty is predicted corresponding to each test data.
+2. True Positive Rate, False Positive Rate and False Negative Rate for range of threshold from 0 to 1 is calculated.
+3. These values are plotted on the graph and the perfect threshold is selected. This graph obtained is as shown:
 
-RFM analysis helps to answer the following questions: Who was our most recent customer? How many times has he purchased items from our shop? And what is the total value of his trade? All this information can be critical to understanding how good or bad a customer is to the company.
+![image](https://user-images.githubusercontent.com/86877457/132754479-7ae62a40-c2a6-4ea5-b7cc-c945e3dfcff1.png)
 
-After getting the RFM values, a common practice is to create ‘quartiles’ on each of the metrics and assigning the required order.
+4. Threshold ~ 0.7 seems good from the graph and final after testing 0.72 was selected. 
 
-I used the net Amount to get the monetary value of each transaction i.e., per CustomerID
-For RFM analysis, we need to define a ‘snapshot date’, which is the day on which we are conducting this analysis. Here, I have taken the snapshot date as the highest date in the (last date on data + 1). This is equal to the date 2011–12–10.(YYYY-MM-DD)
+![image](https://user-images.githubusercontent.com/86877457/132754716-d5772bd7-9f4b-45a9-8e02-b7a6b3116635.png)
 
-![image](https://user-images.githubusercontent.com/86877457/132370764-8099ed38-835c-4557-a320-4b543eb8e17b.png)
+**Training accuracy ~ 72%
 
-![image](https://user-images.githubusercontent.com/86877457/132370812-5db15f56-9c46-4a52-878e-f35818749513.png)
+**Test accuracy ~ 85%
 
-Then, I created 4 quartiles segment on this data with split at [25%ile,50%ile,75%ile] and collate these scores into an RFM_Segment column by assigning a score(1,2,3,4) value [R,F,M] respectively to the attributes.
-
-- For the recency metric, the highest value, 4, will be assigned to the customers with the least recency value (since they are the most recent customers).
-- For the frequency and monetary metric, the highest value, 4, will be assigned to the customers with the Top 25% frequency and monetary values, respectively.
-
-After dividing the metrics into quartiles, The RFM_Score is calculated by summing up the RFM quartile metrics and RFM_Segment is calulated by collating them as a string of characters. 
-
-![image](https://user-images.githubusercontent.com/86877457/132371242-2643a720-7499-4923-ad50-75385903f6e8.png)
-
-Now the data can be grouped on the basis of RFM Score and mean attributes value can be compared for varoius RFM scores.
-
-![image](https://user-images.githubusercontent.com/86877457/132385657-6d8acfb4-46b8-4b0f-855b-9a5c3608aead.png)
-
-**MY ANALYSIS FROM RFM SEGMENTATION**
-
-As expected, customers with the lowest RFM scores have the highest recency value and the lowest frequency and monetary value, and the vice-versa is true as well.
-
-This data was clustred in three groups on the basis of RFM Score(3-12):
-- **'Low':** RFM Score < 5
-- **'Middle':** 5 <= RFM Score < 9
-- **'Top':** RFM Score >= 9
-
-![image](https://user-images.githubusercontent.com/86877457/132386098-ef6a5e7d-389e-4802-9dd0-92c6a1cd0248.png)
-
-In many scenarios, this would have been okay. But, if we want to properly find out segments on our RFM values, we can use a clustering algorithm like K-means.
-
-### Clustering
-I chose K-Means clustering because the attribute were explicitly labelled. 
-
-**Preprocessing data for Clustering**
-
-Firstly, I prepared the data for Kmeans clustering on RFM Score data so that it can meet the key assumptions of Kmeans algorithm, which are:
-
-1. The varaiables should be distributed symmetrically
-2. Variables should have similar average values
-3. Variables should have similar standard deviation values
-
-![image](https://user-images.githubusercontent.com/86877457/132389115-97fc0124-9c2d-40c1-8f48-b03d49f2b164.png)
-
-As you can see from the above plots, all the variables do not have a symmetrical distribution. All of them are skewed to the right. To remove the skewness, we can try the following transformations:
-
-- Log transformations
-- Box-Cox transformations
-- Cube root transformations
-
-The log transformation cannot be used for negative values. However, this data do not have any negative values since it is a customer transactions dataset.
-
-After performming log transform and standardising the date, **Skewness has been removed**
-
-![image](https://user-images.githubusercontent.com/86877457/132389568-138f5fbf-54f0-4bf5-ac73-4fa88c395ff8.png)
-
-
-
-**Clustering with K-means Algorithm**
-
-I performed K-means Clsutering on the data and follwed the 'Elbow Method' to get the optimal number of clusters. One can also use silhouette analysis to find the optimal number of clusters. For the purpose of this analysis, I have only used the elbow plot method.
-
-![image](https://user-images.githubusercontent.com/86877457/132389865-11f63b62-b931-4ca4-9813-481ca34abf02.png)
-
-From the above plot, the optimal number can be taken as 3 or 4 or 5.
-
-So, after grouping the data in their clusters, for each value among 3, 4 and 5
-For interpreting this segment, I drew Snake Plot fro all three values.
-
-![image](https://user-images.githubusercontent.com/86877457/132392045-e1613880-251c-4532-b431-062e36571fad.png)
-
-From the above snake plot, we can see the distribution of recency, frequency, and monetary metric values across the clusters. The clusters seem to be separate from each other, which indicates a good heterogeneous mix of clusters. Best happens for k=3. But k=4 happens to be more practical.
-
-As the final step in this analysis,I extracted this information now for each customer and grouped them in the clusters formed that can be used to map the customer with their relative importance by the company:
-
-This can be approched by finding the relative importance of each attributes for each clusters so that the company can focus more on the attribute of max importance for a particular cluster of customers. Ths was calculated by dividing the Mean value of attributes of each cluster and dividing it by the overall population average. A heatmap was plotted for the result:
-
-![image](https://user-images.githubusercontent.com/86877457/132393027-28b9f33b-8836-4d2c-ae75-74e7174a2531.png)
+This was the final result obtained.
 
 <!-- FINAL THOUGHTS -->
 ## Final Thoughts
 
-From the above analysis, we can see that there should be 4 clusters in our data. To understand what these 4 clusters mean in a business scenario, we should look back the table comparing the clustering performance of RFM Segmentation Model and 4 clusters for the mean values of recency, frequency, and monetary metric. On this basis, let us label the clusters as **‘New customers’, ‘Lost customers’, ‘Loyal customers’, and ‘At Risk customers’.**
-
-**MY INTERPRETATION**
-
-![image](https://user-images.githubusercontent.com/86877457/132398189-8d90880b-6966-480b-944d-a9ffba803595.png)
+I was curious whether daily news deadline could affect the stock market price of the same day. So I started this project. After working on raw text data processing and classification modelling, I got the best performing model, Naive Bayes with Bag of Words embedding. This model successfully predicted 85 % of the situation when the stock price increased or stayed the same. Stock price prediction is a very complex problem. There are so many affecting elements. At least now we know that news headlines are definitely one them!
 
 **FURTHER IMPROVEMENT**
-- Product Category could be incorporated into the segmentation. Further product description can be used to derive the product categories with the help of NLP.
-- Conducting deeper segmentation on customers based on their geographical location, and demographic and psychographic factors.
-- Taking other factors such as geographical location, demographic, psychographic factors and purchase history into consideration we can build a predictive model to predict thier next purchase for them and for the customers with similar attributes.
+- The current analysis is based on 16 years of data from 2000 to 2016. I would like to collect more data and recent data to improve the model.
+- News from single relavent source will prove more efficient in building the model. It will ease cleaning and produce more quality data for modelling.
+- The classification models I used in this project are classic machine learning models. In the future I would like to try deep learning model because deep learning works very well in natural language processing problems.
