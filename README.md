@@ -148,7 +148,7 @@ Machine learning models don’t understand human words, but they know vectors!
 
 I want to try several different word embedding methods, because they could affect the performance of the models. For bag of words, TF-IDF embedding, we need to have each document as a long string. For word2vec embedding, the vectors will be what we need.
 
-- Doc2vec: The famous GoogleNews word2vec model was trained on 3 billion running words and contains 3 million 300-dimension English word vectors. I downloaded the model from [here](https://github.com/mmihaltz/word2vec-GoogleNews-vectors). Our prediction will be based on each document instead of words. So made a document vector by averaging the word vectors on each combined string in 'headlines_str'. I created a function to do this task. After running each document through this function, every document is now a 300 dimensional vector.
+- **Doc2vec:** The famous GoogleNews word2vec model was trained on 3 billion running words and contains 3 million 300-dimension English word vectors. I downloaded the model from [here](https://github.com/mmihaltz/word2vec-GoogleNews-vectors). Our prediction will be based on each document instead of words. So made a document vector by averaging the word vectors on each combined string in 'headlines_str'. I created a function to do this task. After running each document through this function, every document is now a 300 dimensional vector.
 
   ```sh
   def doc2vec(model, wordlist):
@@ -239,19 +239,19 @@ The model mentioned above were selected and **hyper-parameter tuning** was perfo
 
 **GridSearchCV** was used to find the best hyper paramters.
 
-__**Naive Bayes Model with Count Vectorizer**__
+**1. Naive Bayes Model with Count Vectorizer**
 
 The Confusion Matrix and the Classification Report for the following is shown below:
 
 ![image](https://user-images.githubusercontent.com/86877457/132752524-556bdf65-1d73-4aba-ac2f-664950c70366.png)
 
-__**Random Forest with Count Vectorizer**__
+**2. Random Forest with Count Vectorizer**
 
 The Confusion Matrix and the Classification Report for the following is shown below:
 
 ![image](https://user-images.githubusercontent.com/86877457/132752723-b9673415-9c02-47e2-b0c1-8a8d39bb01fb.png)
 
-__**KNN Model with TFID Vectorizer**__
+**3. KNN Model with TFID Vectorizer**
 
 The Confusion Matrix and the Classification Report for the following is shown below:
 
