@@ -121,24 +121,24 @@ Here is the result:
 
 ![image](https://user-images.githubusercontent.com/86877457/132745464-238c5005-c2aa-4b81-8871-8ee3b76898b1.png)
 
-The abbreviations which were important were converted to their full forms other abbreviation like A.K.A were removed. Then a loumn was created 'headlines_str' which contained all the headlines merged into one string. 
+The abbreviations which were important were converted to their full forms other abbreviation like A.K.A were removed. Then a column was created 'headlines_str' which contained all the headlines merged into one string. 
 
-I created a loop that can convert raw text into a list of word tokens. This function tokenise the string into word tokens. Further clean is performed to lemmatise the words, remove stop words as well as lower the letters. Here is the loop.
+I created a loop that can convert raw text into a list of word tokens. This function tokenise the string into word tokens. Further cleaning is performed to lemmatise the words, remove stop words as well as lower the letters. Here is the loop.
 
   ```sh
-  df['headlines_str']=np.nan
+  df['headlines_str'] = np.nan
   for i in range(len(df.Headlines)):
-    df.headlines_str[i]=df.Headlines[i].lower()
-    df.headlines_str[i]=re.sub("[^a-zA-z]"," ",df.headlines_str[i])
-    words=nltk.word_tokenize(df.headlines_str[i])
-    words=[wl.lemmatize(word) for word in words if word not in set(stopwords.words('english'))]
-    df.headlines_str[i]=' '.join(words)	
+    df.headlines_str[i] = df.Headlines[i].lower()
+    df.headlines_str[i] = re.sub("[^a-zA-z]"," ",df.headlines_str[i])
+    words = nltk.word_tokenize(df.headlines_str[i])
+    words = [wl.lemmatize(word) for word in words if word not in set(stopwords.words('english'))]
+    df.headlines_str[i] = ' '.join(words)	
   ```
-After this, the headlines were converted like this:
+After this, the headlines were converted from left to right:
 
 ![image](https://user-images.githubusercontent.com/86877457/132746901-78788bdb-aac1-480a-a276-c6a57f3d79f9.png)
 
-The words were stored in the form of a lists in seperate column 'headlines_words'
+The words were stored in the form of a lists in seperate column 'headlines_words' as shown below:
 
 ![image](https://user-images.githubusercontent.com/86877457/132746710-83dee565-0ed6-42b5-806e-27f377c63610.png)
 
@@ -192,8 +192,7 @@ This is a time series data where we have to predict future results with data of 
   
   models = ["lr_model", "nb_model", "knn_model", "svc_model", "rf_model", "et_model", "ada_model"]
   ```
-  
-    ```sh
+  ```sh
   def baseline_model_filter(modellist, X, y):
     ''' 1. split the train data further into train and validation (17%). 
         2. fit the train data into each model of the model list
@@ -204,8 +203,7 @@ This is a time series data where we have to predict future results with data of 
         curr_model = eval(model_name)
         curr_model.fit(X_train, y_train) 
         print(f'{model_name} \n report:{classification_report(y_valid, curr_model.predict(X_valid))}')
-
-  ```
+```
   
 We are going to try the 7 models on data prepared in four different word embedding methods. Bag of words, word TF-IDF and word2vec. Each method will give me 7 reports, I selected the best performing model and listed them below
 
@@ -229,7 +227,7 @@ Naive Bayes and Random Forest model gives the best result for bag of words embed
 **For Word TF-IDF:**
 ----------------------
 
-KNN model gives the best result for TF-IDF embedding. However, the bag of words result is slightly better than word level TF-IDF.
+KNN model gives the best result for TF-IDF embedding. However, the bag of words result is slightly better than word level TF-IDF overall.
 
 ![image](https://user-images.githubusercontent.com/86877457/132750729-7a07b26d-4fe1-42fc-83fd-dd4c0ee34257.png)
 
@@ -241,20 +239,20 @@ The model mentioned above were selected and **hyper-parameter tuning** was perfo
 
 **GridSearchCV** was used to find the best hyper paramters.
 
-**Naive Bayes Model with Count Vectorizer**
---------------------------------------------
+__**Naive Bayes Model with Count Vectorizer**__
+
 The Confusion Matrix and the Classification Report for the following is shown below:
 
 ![image](https://user-images.githubusercontent.com/86877457/132752524-556bdf65-1d73-4aba-ac2f-664950c70366.png)
 
-**Random Forest with Count Vectorizer**
-----------------------------------------
+__**Random Forest with Count Vectorizer**__
+
 The Confusion Matrix and the Classification Report for the following is shown below:
 
 ![image](https://user-images.githubusercontent.com/86877457/132752723-b9673415-9c02-47e2-b0c1-8a8d39bb01fb.png)
 
-**KNN Model with TFID Vectorizer**
-----------------------------------
+__**KNN Model with TFID Vectorizer**__
+
 The Confusion Matrix and the Classification Report for the following is shown below:
 
 ![image](https://user-images.githubusercontent.com/86877457/132752813-eeb10dbf-8610-4b4c-94cf-1a944382a78e.png)
@@ -275,9 +273,9 @@ An Investor/Trader invest a lot of money in the market and saving money is more 
 
 ![image](https://user-images.githubusercontent.com/86877457/132754716-d5772bd7-9f4b-45a9-8e02-b7a6b3116635.png)
 
-**Training accuracy ~ 72%
+**Training accuracy ~ 72%**
 
-**Test accuracy ~ 85%
+**Test accuracy ~ 85%**
 
 This was the final result obtained.
 
