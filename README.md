@@ -209,8 +209,7 @@ We are going to try the 7 models on data prepared in four different word embeddi
 
 ### Best Baseline Models
 
-**For Bad of Words/Count Vectorizer:**
----------------------------------------
+**1. For Bad of Words/Count Vectorizer:**
 
 ```sh
 count_vect = CountVectorizer(analyzer='word')
@@ -224,8 +223,7 @@ Naive Bayes and Random Forest model gives the best result for bag of words embed
 
 ![image](https://user-images.githubusercontent.com/86877457/132750553-ce22ceb2-32fe-4555-9372-4a6ec096f7da.png)
 
-**For Word TF-IDF:**
-----------------------
+**2. For Word TF-IDF:**
 
 KNN model gives the best result for TF-IDF embedding. However, the bag of words result is slightly better than word level TF-IDF overall.
 
